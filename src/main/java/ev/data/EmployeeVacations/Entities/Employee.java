@@ -1,4 +1,4 @@
-package ev.data.EmployeeVacations;
+package ev.data.EmployeeVacations.Entities;
 
 import java.time.LocalDate;
 import java.util.Date;

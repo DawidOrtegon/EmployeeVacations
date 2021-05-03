@@ -1,7 +1,11 @@
 package ev.data.EmployeeVacations;
 
+import ev.data.EmployeeVacations.Entities.Employee;
+import ev.data.EmployeeVacations.Entities.HolidayRequest;
+
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -17,6 +21,7 @@ public class DBUtilClient extends DBUtil
         this.dataSource = dataSource;
     }
 
+    // GET the employees.
     @Override
     List<Employee> getEmployees() throws Exception {
 
@@ -62,6 +67,7 @@ public class DBUtilClient extends DBUtil
         return Employees;
     }
 
+    // GET holidays requests.
     @Override
     List<HolidayRequest> getHolidayRequests() throws Exception
     {
@@ -103,5 +109,38 @@ public class DBUtilClient extends DBUtil
         }
 
         return HolidayRequests;
+    }
+
+    // Add Employees to the DB.
+    public void addEmployee(Employee employee) throws Exception
+    {
+        Connection conn = null;
+        PreparedStatement statement = null;
+
+        try
+        {
+            // Connection with the database.
+            conn = dataSource.getConnection();
+
+            // Command to insert the values into the table.
+            String sql = "INSERT INTO Employee(employee_name,employee_lastName,login,passcode,startDateJob,daysHolAvailable)" + "VALUES(?,?,?,?,?,?)";
+            statement = conn.prepareStatement(sql);
+            statement.setString(1,employee.getEmployee_name());
+            statement.setString(2,employee.getEmployee_lastName());
+            statement.setString(3,employee.getLogin());
+            statement.setString(4,employee.getPasscode());
+            statement.setDate(5, (java.sql.Date) employee.getStartDateJob());
+            statement.setInt(6,employee.getDaysHolAvailable());
+
+            // Do the statement.
+            statement.execute();
+
+        }
+        finally
+        {
+            close(conn,statement,null);
+
+        }
+
     }
 }

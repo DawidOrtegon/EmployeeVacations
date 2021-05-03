@@ -1,5 +1,8 @@
 package ev.data.EmployeeVacations;
 
+import ev.data.EmployeeVacations.Entities.Employee;
+import ev.data.EmployeeVacations.Entities.HolidayRequest;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;

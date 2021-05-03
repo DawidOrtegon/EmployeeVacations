@@ -1,5 +1,7 @@
 package ev.data.EmployeeVacations;
 
+import ev.data.EmployeeVacations.Entities.HolidayRequest;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -12,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.List;
+
+// Only to see and check the tables. To ADD and modify will be other servlet.
 
 @WebServlet("/ClientServlet")
 public class ClientServlet extends HttpServlet
