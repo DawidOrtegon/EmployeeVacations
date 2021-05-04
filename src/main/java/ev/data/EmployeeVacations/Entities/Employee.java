@@ -1,39 +1,42 @@
 package ev.data.EmployeeVacations.Entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
-public class Employee
+public class Employee implements Serializable
 {
     // Attributes
     private int id;
     private String employee_name;
     private String employee_lastName;
     private String login;
-    private String passcode;
-    private Date startDateJob;
-    private int daysHolAvailable;
+    private String password;
+    private LocalDate startDateJob;
+
+    // Empty constructor.
+    public Employee() {
+    }
 
     // Constructor without ID.
-    public Employee(String employee_name, String employee_lastName, String login, String passcode, Date startDateJob, int daysHolAvailable) {
+    public Employee(String employee_name, String employee_lastName, String login, String password, LocalDate startDateJob) {
         this.employee_name = employee_name;
         this.employee_lastName = employee_lastName;
         this.login = login;
-        this.passcode = passcode;
+        this.password = password;
         this.startDateJob = startDateJob;
-        this.daysHolAvailable = daysHolAvailable;
+
     }
 
     // Constructor with ID
 
-    public Employee(int id, String employee_name, String employee_lastName, String login, String passcode, Date startDateJob, int daysHolAvailable) {
+    public Employee(int id, String employee_name, String employee_lastName, String login, String password, LocalDate startDateJob) {
         this.id = id;
         this.employee_name = employee_name;
         this.employee_lastName = employee_lastName;
         this.login = login;
-        this.passcode = passcode;
+        this.password = password;
         this.startDateJob = startDateJob;
-        this.daysHolAvailable = daysHolAvailable;
     }
 
     // Getter and Setter
@@ -70,33 +73,23 @@ public class Employee
         this.login = login;
     }
 
-    public String getPasscode() {
-        return passcode;
+    public String getpassword() {
+        return password;
     }
 
-    public void setPasscode(String passcode) {
-        this.passcode = passcode;
+    public void setpassword(String password) {
+        this.password = password;
     }
 
-    public Date getStartDateJob() {
+    public LocalDate getStartDateJob() {
         return startDateJob;
     }
 
-    public void setStartDateJob(Date startDateJob) {
+    public void setStartDateJob(LocalDate startDateJob) {
         this.startDateJob = startDateJob;
     }
 
-    public int getDaysHolAvailable() {
-        return daysHolAvailable;
-    }
-
-    public void setDaysHolAvailable(int daysHolAvailable) {
-        this.daysHolAvailable = daysHolAvailable;
-    }
-
-
     // To string method.
-
     @Override
     public String toString() {
         return "Employee{" +
@@ -104,9 +97,8 @@ public class Employee
                 ", employee_name='" + employee_name + '\'' +
                 ", employee_lastName='" + employee_lastName + '\'' +
                 ", login='" + login + '\'' +
-                ", passcode='" + passcode + '\'' +
+                ", passcode='" + password + '\'' +
                 ", startDateJob=" + startDateJob + '\'' +
-                ", daysHolAvailable=" + daysHolAvailable + '\'' +
                 '}';
     }
 }

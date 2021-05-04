@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,7 +39,7 @@ public class DBUtilClient extends DBUtil
             conn = dataSource.getConnection();
 
             // Order to see the table Employee.
-            String sql = "SELECT * FROM VacationsDatabase.Employee";
+            String sql = "SELECT * FROM VacationsDatabaseB.Employee";
             statement = conn.createStatement();
 
             // Results.
@@ -50,10 +52,9 @@ public class DBUtilClient extends DBUtil
                 String employee_lastName = resultSet.getString("employee_lastName");
                 String login = resultSet.getString("login");
                 String passcode = resultSet.getString("passcode");
-                Date startDateJob = resultSet.getDate("startDateJob");
-                int daysHolAvailable = resultSet.getInt("daysHolAvailable");
-
-                Employees.add(new Employee(id, employee_name, employee_lastName,login, passcode,startDateJob,daysHolAvailable));
+                // String startDateJob = resultSet.getDate("startDateJob");
+                LocalDate startDateJob = resultSet.getDate("startDateJob").toLocalDate();
+                Employees.add(new Employee(id, employee_name, employee_lastName,login, passcode,startDateJob));
             }
 
         }
@@ -83,7 +84,7 @@ public class DBUtilClient extends DBUtil
             conn = dataSource.getConnection();
 
             // Order to see the table Employee.
-            String sql = "SELECT * FROM VacationsDatabase.HolidayRequest";
+            String sql = "SELECT * FROM VacationsDatabaseB.HolidayRequest";
             statement = conn.createStatement();
 
             // Results.
@@ -123,14 +124,13 @@ public class DBUtilClient extends DBUtil
             conn = dataSource.getConnection();
 
             // Command to insert the values into the table.
-            String sql = "INSERT INTO Employee(employee_name,employee_lastName,login,passcode,startDateJob,daysHolAvailable)" + "VALUES(?,?,?,?,?,?)";
+            String sql = "INSERT INTO Employee(employee_name,employee_lastName,login,passcode,startDateJob)" + "VALUES(?,?,?,?,?,?)";
             statement = conn.prepareStatement(sql);
             statement.setString(1,employee.getEmployee_name());
             statement.setString(2,employee.getEmployee_lastName());
             statement.setString(3,employee.getLogin());
-            statement.setString(4,employee.getPasscode());
-            statement.setDate(5, (java.sql.Date) employee.getStartDateJob());
-            statement.setInt(6,employee.getDaysHolAvailable());
+            statement.setString(4,employee.getpassword());
+            statement.setDate(5, JDBCUtils.getSQLDate(employee.getStartDateJob()));
 
             // Do the statement.
             statement.execute();

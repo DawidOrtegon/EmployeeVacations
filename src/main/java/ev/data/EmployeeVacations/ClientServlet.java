@@ -31,7 +31,7 @@ public class ClientServlet extends HttpServlet
             Context envCtx = (Context) initContext.lookup("java:comp/env");
             // Look up our data source
             dataSource = (DataSource)
-                    envCtx.lookup("jdbc/Employee_Vacations_Web_App");
+                    envCtx.lookup("jdbc/Employee_Vacations_Web_App_B");
 
         } catch (NamingException e) {
             e.printStackTrace();

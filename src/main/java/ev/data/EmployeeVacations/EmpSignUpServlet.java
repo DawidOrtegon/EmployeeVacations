@@ -15,6 +15,8 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @WebServlet("/EmpSignUpServlet")
@@ -32,7 +34,7 @@ public class EmpSignUpServlet extends HttpServlet
             Context envCtx = (Context) initContext.lookup("java:comp/env");
             // Look up our data source
             dataSource = (DataSource)
-                    envCtx.lookup("jdbc/Employee_Vacations_Web_App");
+                    envCtx.lookup("jdbc/Employee_Vacations_Web_App_B");
 
         } catch (NamingException e) {
             e.printStackTrace();
@@ -96,12 +98,11 @@ public class EmpSignUpServlet extends HttpServlet
         String login = request.getParameter("username");
         String passcode = request.getParameter("passcode");
         // Check after the types for this.
-        String startDateJobReal = request.getParameter("startDate");
-        Date startDateJob = (Date) new SimpleDateFormat("yyyy/MM/dd").parse(startDateJobReal);
-        int daysHolAvailable = Integer.parseInt(request.getParameter("daysAvailable"));
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDateJob = LocalDate.parse(request.getParameter("startDate"),dateFormat);
 
         // Opening the object to show.
-        Employee employee = new Employee(employee_name,employee_lastName,login,passcode,startDateJob,daysHolAvailable);
+        Employee employee = new Employee(employee_name,employee_lastName,login,passcode,startDateJob);
 
         // Adding the new employee to table in MySQL and ther list already declared.
         dbUtilClient.addEmployee(employee);
