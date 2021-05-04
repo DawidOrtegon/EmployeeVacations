@@ -8,29 +8,30 @@ public class HolidayRequest
     // Fields in the table.
     private int id;
     private int idEmployeeApplicant;
-    private Date startDateHol;
-    private Date endDateHol;
-    private int totalDays;
-    private String state;
+    private LocalDate startDateHol;
+    private LocalDate endDateHol;
+    private String status;
+
+    // Empty constructor
+    public HolidayRequest()
+    {
+    }
 
     // Constructor without ID.
-    public HolidayRequest(int idEmployeeApplicant, Date startDateHol, Date endDateHol, int totalDays, String state) {
+    public HolidayRequest(int idEmployeeApplicant, LocalDate startDateHol, LocalDate endDateHol, String status) {
         this.idEmployeeApplicant = idEmployeeApplicant;
         this.startDateHol = startDateHol;
         this.endDateHol = endDateHol;
-        this.totalDays = totalDays;
-        this.state = state;
+        this.status = status;
     }
 
-
     // Constructor with ID.
-    public HolidayRequest(int id, int idEmployeeApplicant, Date startDateHol, Date endDateHol, int totalDays, String state) {
+    public HolidayRequest(int id, int idEmployeeApplicant, LocalDate startDateHol, LocalDate endDateHol, String status) {
         this.id = id;
         this.idEmployeeApplicant = idEmployeeApplicant;
         this.startDateHol = startDateHol;
         this.endDateHol = endDateHol;
-        this.totalDays = totalDays;
-        this.state = state;
+        this.status = status;
     }
 
     // Getter and Setter Methods.
@@ -50,36 +51,28 @@ public class HolidayRequest
         this.idEmployeeApplicant = idEmployeeApplicant;
     }
 
-    public Date getStartDateHol() {
+    public LocalDate getStartDateHol() {
         return startDateHol;
     }
 
-    public void setStartDateHol(Date startDateHol) {
+    public void setStartDateHol(LocalDate startDateHol) {
         this.startDateHol = startDateHol;
     }
 
-    public Date getEndDateHol() {
+    public LocalDate getEndDateHol() {
         return endDateHol;
     }
 
-    public void setEndDateHol(Date endDateHol) {
+    public void setEndDateHol(LocalDate endDateHol) {
         this.endDateHol = endDateHol;
     }
 
-    public int getTotalDays() {
-        return totalDays;
+    public String getStatus() {
+        return status;
     }
 
-    public void setTotalDays(int totalDays) {
-        this.totalDays = totalDays;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     // To string method.
@@ -91,8 +84,7 @@ public class HolidayRequest
                 ", idEmployeeApplicant=" + idEmployeeApplicant + '\'' +
                 ", startDateHol=" + startDateHol + '\'' +
                 ", endDateHol=" + endDateHol + '\'' +
-                ", totalDays=" + totalDays + '\'' +
-                ", state='" + state + '\'' +
+                ", state='" + status + '\'' +
                 '}';
     }
 }

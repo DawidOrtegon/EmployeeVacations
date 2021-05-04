@@ -16,7 +16,7 @@ import java.util.List;
 
 public class DBUtilClient extends DBUtil
 {
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     public DBUtilClient(DataSource dataSource)
     {
@@ -51,10 +51,11 @@ public class DBUtilClient extends DBUtil
                 String employee_name = resultSet.getString("employee_name");
                 String employee_lastName = resultSet.getString("employee_lastName");
                 String login = resultSet.getString("login");
-                String passcode = resultSet.getString("passcode");
+                String password = resultSet.getString("password");
                 // String startDateJob = resultSet.getDate("startDateJob");
                 LocalDate startDateJob = resultSet.getDate("startDateJob").toLocalDate();
-                Employees.add(new Employee(id, employee_name, employee_lastName,login, passcode,startDateJob));
+                Boolean manager = resultSet.getBoolean("manager");
+                Employees.add(new Employee(id, employee_name, employee_lastName,login, password,startDateJob,manager));
             }
 
         }
@@ -83,7 +84,7 @@ public class DBUtilClient extends DBUtil
             // Connection with the DataBase VacationsDatabase
             conn = dataSource.getConnection();
 
-            // Order to see the table Employee.
+            // Order to see the table holiday request by the user log in, where username and passcode equal.
             String sql = "SELECT * FROM VacationsDatabaseB.HolidayRequest";
             statement = conn.createStatement();
 
@@ -92,14 +93,16 @@ public class DBUtilClient extends DBUtil
 
             while(resultSet.next())
             {
+                // To set the date with the correct format of MySQL.
+                DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
                 int id = resultSet.getInt("id");
                 int idEmployeeApplicant = resultSet.getInt("idEmployeeApplicant");
-                Date startDateHol = resultSet.getDate("startDateHol");
-                Date endDateHol = resultSet.getDate("endDateHol");
-                int totalDays = resultSet.getInt("totalDays");
+                LocalDate startDateHol = LocalDate.parse(resultSet.getString("startDateHol"),dateFormat);
+                LocalDate endDateHol = LocalDate.parse(resultSet.getString("endDateHol"),dateFormat);
                 String state = resultSet.getString("state");
 
-                HolidayRequests.add(new HolidayRequest(id,idEmployeeApplicant,startDateHol,endDateHol,totalDays,state));
+                HolidayRequests.add(new HolidayRequest(id,idEmployeeApplicant,startDateHol,endDateHol,state));
             }
 
         }

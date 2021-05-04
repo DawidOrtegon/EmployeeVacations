@@ -94,6 +94,11 @@
                             <label for="startDate">Start Date:</label>
                             <input type="text" class="form-control" id="startDate"  name="startDate" required>
                         </div>
+
+                        <div class="form-group">
+                            <label for="manager">You are a manager:</label>
+                            <input type="text" id="manager" class="form-control" name="manager" required>
+                        </div>
                     </div>
 
                     <div class="my-lg-3">

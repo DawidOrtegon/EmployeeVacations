@@ -3,9 +3,7 @@ package ev.data.EmployeeVacations;
 import ev.data.EmployeeVacations.Entities.Employee;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -19,10 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/registerServlet")
 public class RegisterControllerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private DataAccessObject dataAccessObject;
+    private RegisterDao registerDao;
 
     public void init() {
-        dataAccessObject = new DataAccessObject();
+        registerDao = new RegisterDao();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -44,11 +42,12 @@ public class RegisterControllerServlet extends HttpServlet {
         String lastName = request.getParameter("lastName");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-//      String startDateJobReal = request.getParameter("startDate");
-//      Date startDateJob = (Date) new SimpleDateFormat("dd/MM/yyyy").parse(startDateJobReal);
+        // For the date, take in mind the transforming functon.
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         System.out.println(request.getParameter("startDate"));
         LocalDate startDateJob = LocalDate.parse(request.getParameter("startDate"),dateFormat);
+        Boolean manager = Boolean.parseBoolean(request.getParameter("manager"));
+
 
         Employee employee = new Employee();
         employee.setEmployee_name(firstName);
@@ -56,9 +55,10 @@ public class RegisterControllerServlet extends HttpServlet {
         employee.setLogin(username);
         employee.setpassword(password);
         employee.setStartDateJob(startDateJob);
+        employee.setManager(manager);
 
         try {
-            int result = dataAccessObject.registerEmployee(employee);
+            int result = registerDao.registerEmployee(employee);
             if (result == 1) {
                 request.setAttribute("NOTIFICATION", "User Registered Successfully!");
             }

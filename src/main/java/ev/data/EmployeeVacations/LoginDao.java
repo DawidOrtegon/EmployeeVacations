@@ -5,7 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class LoginDao {
+public class LoginDao
+{
 
     public boolean validate(LoginBean loginBean) throws ClassNotFoundException {
         boolean status = false;
@@ -14,7 +15,7 @@ public class LoginDao {
 
         try (Connection connection = JDBCUtils.getConnection();
              // Step 2:Create a statement using connection object
-             PreparedStatement preparedStatement = connection.prepareStatement("select * from Employee where login = ? and password = ? ")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Employee WHERE login = ? AND password = ? ")) {
             preparedStatement.setString(1, loginBean.getUsername());
             preparedStatement.setString(2, loginBean.getPassword());
 

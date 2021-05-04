@@ -80,9 +80,8 @@
         <th scope="col">Name</th>
         <th scope="col">Last Name</th>
         <th scope="col">Username</th>
-        <th scope="col">Passcode</th>
         <th scope="col">Start Date</th>
-        <th scope="col">Days Available</th>
+        <th scope="col">Manager</th>
     </tr>
     </thead>
 
@@ -94,9 +93,8 @@
             <td>${tmpRequest.employee_name}</td>
             <td>${tmpRequest.employee_lastName}</td>
             <td>${tmpRequest.login}</td>
-            <td>${tmpRequest.passcode}</td>
             <td>${tmpRequest.startDateJob}</td>
-            <td>${tmpRequest.daysHolAvailable}</td>
+            <td>${tmpRequest.manager}</td>
         </tr>
 
     </c:forEach>

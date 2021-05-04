@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -100,9 +98,10 @@ public class EmpSignUpServlet extends HttpServlet
         // Check after the types for this.
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate startDateJob = LocalDate.parse(request.getParameter("startDate"),dateFormat);
+        Boolean manager = Boolean.parseBoolean(request.getParameter("manager"));
 
         // Opening the object to show.
-        Employee employee = new Employee(employee_name,employee_lastName,login,passcode,startDateJob);
+        Employee employee = new Employee(employee_name,employee_lastName,login,passcode,startDateJob,manager);
 
         // Adding the new employee to table in MySQL and ther list already declared.
         dbUtilClient.addEmployee(employee);

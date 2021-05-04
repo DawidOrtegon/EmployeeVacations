@@ -80,7 +80,6 @@
                 <th scope="col">Employee Who Applied</th>
                 <th scope="col">From When</th>
                 <th scope="col">Until</th>
-                <th scope="col">Total Days</th>
                 <th scope="col">Petition Status</th>
             </tr>
         </thead>
@@ -93,7 +92,6 @@
                     <td>${tmpRequest.idEmployeeApplicant}</td>
                     <td>${tmpRequest.startDateHol}</td>
                     <td>${tmpRequest.endDateHol}</td>
-                    <td>${tmpRequest.totalDays}</td>
                     <td>${tmpRequest.state}</td>
                 </tr>
 

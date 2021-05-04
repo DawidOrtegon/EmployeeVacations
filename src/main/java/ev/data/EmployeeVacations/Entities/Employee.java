@@ -13,30 +13,33 @@ public class Employee implements Serializable
     private String login;
     private String password;
     private LocalDate startDateJob;
+    private boolean manager;
 
     // Empty constructor.
     public Employee() {
     }
 
     // Constructor without ID.
-    public Employee(String employee_name, String employee_lastName, String login, String password, LocalDate startDateJob) {
+    public Employee(String employee_name, String employee_lastName, String login, String password, LocalDate startDateJob, boolean manager) {
         this.employee_name = employee_name;
         this.employee_lastName = employee_lastName;
         this.login = login;
         this.password = password;
         this.startDateJob = startDateJob;
+        this.manager = manager;
 
     }
 
     // Constructor with ID
 
-    public Employee(int id, String employee_name, String employee_lastName, String login, String password, LocalDate startDateJob) {
+    public Employee(int id, String employee_name, String employee_lastName, String login, String password, LocalDate startDateJob, boolean manager) {
         this.id = id;
         this.employee_name = employee_name;
         this.employee_lastName = employee_lastName;
         this.login = login;
         this.password = password;
         this.startDateJob = startDateJob;
+        this.manager = manager;
     }
 
     // Getter and Setter
@@ -89,6 +92,14 @@ public class Employee implements Serializable
         this.startDateJob = startDateJob;
     }
 
+    public boolean isManager() {
+        return manager;
+    }
+
+    public void setManager(boolean manager) {
+        this.manager = manager;
+    }
+
     // To string method.
     @Override
     public String toString() {
@@ -99,6 +110,7 @@ public class Employee implements Serializable
                 ", login='" + login + '\'' +
                 ", passcode='" + password + '\'' +
                 ", startDateJob=" + startDateJob + '\'' +
+                ", manager=" + manager + '\'' +
                 '}';
     }
 }

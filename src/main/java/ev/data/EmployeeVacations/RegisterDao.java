@@ -7,12 +7,12 @@ import java.sql.SQLException;
 
 import ev.data.EmployeeVacations.Entities.Employee;
 
-public class DataAccessObject {
+public class RegisterDao {
 
     public int registerEmployee(Employee employee) throws ClassNotFoundException {
         String INSERT_USERS_SQL = "INSERT INTO VacationsDatabaseB.Employee" +
-                "  (employee_name, employee_lastName, login, password, startDateJob) VALUES " +
-                " (?, ?, ?, ?, ?);";
+                "  (employee_name, employee_lastName, login, password, startDateJob, manager) VALUES " +
+                " (?, ?, ?, ?, ?, ?);";
 
         int result = 0;
         try (Connection connection = JDBCUtils.getConnection();
@@ -23,6 +23,7 @@ public class DataAccessObject {
             preparedStatement.setString(3, employee.getLogin());
             preparedStatement.setString(4, employee.getpassword());
             preparedStatement.setDate(5, JDBCUtils.getSQLDate(employee.getStartDateJob()));
+            preparedStatement.setBoolean(6,employee.isManager());
 
             System.out.println(preparedStatement);
             // Step 3: Execute the query or update query
