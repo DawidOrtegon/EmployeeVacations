@@ -77,10 +77,17 @@
                             <label for="idEmployeeApplicant">ID Applicant Employee</label>
                             <input type="text" class="form-control" name="idEmployeeApplicant"/>
                         </div>
+
+                        <div class="form-group">
+                            <label for="loginEmployeeApplicant">Login Applicant Employee</label>
+                            <input type="text" class="form-control" name="loginEmployeeApplicant"/>
+                        </div>
+
                         <div class="form-group">
                             <label for="startDateHol">Start Date</label>
                             <input type="text" class="form-control" name="startDateHol"/>
                         </div>
+
                         <div class="form-group">
                             <label for="endDateHol">End Date</label>
                             <input type="text" class="form-control" name="endDateHol"/>

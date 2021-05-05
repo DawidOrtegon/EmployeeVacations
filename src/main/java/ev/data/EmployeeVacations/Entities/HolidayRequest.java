@@ -8,6 +8,7 @@ public class HolidayRequest
     // Fields in the table.
     private int id;
     private int idEmployeeApplicant;
+    private String loginEmployeeApplicant;
     private LocalDate startDateHol;
     private LocalDate endDateHol;
     private String status;
@@ -18,23 +19,26 @@ public class HolidayRequest
     }
 
     // Constructor without ID.
-    public HolidayRequest(int idEmployeeApplicant, LocalDate startDateHol, LocalDate endDateHol, String status) {
+    public HolidayRequest(int idEmployeeApplicant, String loginEmployeeApplicant, LocalDate startDateHol, LocalDate endDateHol, String status) {
         this.idEmployeeApplicant = idEmployeeApplicant;
+        this.loginEmployeeApplicant = loginEmployeeApplicant;
         this.startDateHol = startDateHol;
         this.endDateHol = endDateHol;
         this.status = status;
     }
 
     // Constructor with ID.
-    public HolidayRequest(int id, int idEmployeeApplicant, LocalDate startDateHol, LocalDate endDateHol, String status) {
+    public HolidayRequest(int id, int idEmployeeApplicant, String loginEmployeeApplicant, LocalDate startDateHol, LocalDate endDateHol, String status) {
         this.id = id;
         this.idEmployeeApplicant = idEmployeeApplicant;
+        this.loginEmployeeApplicant = loginEmployeeApplicant;
         this.startDateHol = startDateHol;
         this.endDateHol = endDateHol;
         this.status = status;
     }
 
     // Getter and Setter Methods.
+
     public int getId() {
         return id;
     }
@@ -49,6 +53,14 @@ public class HolidayRequest
 
     public void setIdEmployeeApplicant(int idEmployeeApplicant) {
         this.idEmployeeApplicant = idEmployeeApplicant;
+    }
+
+    public String getLoginEmployeeApplicant() {
+        return loginEmployeeApplicant;
+    }
+
+    public void setLoginEmployeeApplicant(String loginEmployeeApplicant) {
+        this.loginEmployeeApplicant = loginEmployeeApplicant;
     }
 
     public LocalDate getStartDateHol() {
@@ -75,6 +87,7 @@ public class HolidayRequest
         this.status = status;
     }
 
+
     // To string method.
 
     @Override
@@ -82,6 +95,7 @@ public class HolidayRequest
         return "HolidayRequest{" +
                 "id=" + id + '\'' +
                 ", idEmployeeApplicant=" + idEmployeeApplicant + '\'' +
+                ", loginEmployeeApplicant=" + idEmployeeApplicant + '\'' +
                 ", startDateHol=" + startDateHol + '\'' +
                 ", endDateHol=" + endDateHol + '\'' +
                 ", state='" + status + '\'' +

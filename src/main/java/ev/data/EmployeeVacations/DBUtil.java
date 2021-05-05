@@ -11,7 +11,8 @@ import java.util.List;
 public abstract class DBUtil
 {
     abstract List<Employee> getEmployees() throws Exception;
-    abstract List<HolidayRequest> getHolidayRequests(int employeeID) throws Exception;
+    abstract List<HolidayRequest> getHolidayRequests(String loginEmployeeApplicant) throws Exception;
+    abstract List<HolidayRequest> getHolidayRequestsB() throws Exception;
 
     protected static void close(Connection conn, Statement statement, ResultSet resultSet) {
 

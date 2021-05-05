@@ -43,6 +43,9 @@
     <div class="container d-flex align-items-center">
         <h1 class="logo me-auto"><a href="index.html">Your Holidays Planner<span>.</span></a></h1>
         <nav id="navbar" class="navbar order-last order-lg-0">
+            <ul>
+                <li><a class="nav-link scrollto " href="submitHolidayRequest.jsp">Submit Request</a></li>
+            </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->
 
@@ -78,9 +81,10 @@
     <tr>
         <th scope="col">Request ID</th>
         <th scope="col">Employee Who Applied</th>
+        <th scope="col">Login Employee</th>
         <th scope="col">From When</th>
         <th scope="col">Until</th>
-        <th scope="col">Petition Status</th>
+        <th scope="col">Status</th>
     </tr>
     </thead>
 
@@ -90,9 +94,10 @@
         <tr>
             <th scope="row">${tmpRequest.id}</th>
             <td>${tmpRequest.idEmployeeApplicant}</td>
+            <td>${tmpRequest.loginEmployeeApplicant}</td>
             <td>${tmpRequest.startDateHol}</td>
             <td>${tmpRequest.endDateHol}</td>
-            <td>${tmpRequest.state}</td>
+            <td>${tmpRequest.status}</td>
         </tr>
 
     </c:forEach>

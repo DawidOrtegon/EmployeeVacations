@@ -1,6 +1,7 @@
 package ev.data.EmployeeVacations;
 
 import ev.data.EmployeeVacations.Entities.HolidayRequest;
+import ev.data.EmployeeVacations.Login.LoginBean;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -22,6 +23,7 @@ public class holidayRequestsListServlet extends HttpServlet
 {
     private DataSource dataSource;
     private DBUtilClient dbUtilClient;
+    private LoginBean loginBean;
 
     public holidayRequestsListServlet()
     {
@@ -74,8 +76,7 @@ public class holidayRequestsListServlet extends HttpServlet
     private void listHolidayRequests(HttpServletRequest request, HttpServletResponse response) throws Exception
     {
         // Getting the information from the correct table.
-        int id = Integer.parseInt("id");
-        List<HolidayRequest> holidayRequestList = dbUtilClient.getHolidayRequests(id);
+        List<HolidayRequest> holidayRequestList = dbUtilClient.getHolidayRequestsB();
 
         // Adding the list of request to the correct attribute.
         request.setAttribute("HolidaysRequestsList", holidayRequestList);

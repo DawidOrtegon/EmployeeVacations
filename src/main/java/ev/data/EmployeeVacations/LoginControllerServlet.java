@@ -8,6 +8,9 @@ import ev.data.EmployeeVacations.Login.LoginDao;
 import java.io.IOException;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,17 +18,51 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 
 @WebServlet("/loginControllerServlet")
 public class LoginControllerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private DataSource dataSource;
     private LoginDao loginDao;
     private DBUtilClient dbUtilClient;
 
-    public void init()
+    public LoginControllerServlet()
     {
-        loginDao = new LoginDao();
+        Context initContext =  null;
+        try {
+            initContext = new InitialContext();
+            Context envCtx = (Context) initContext.lookup("java:comp/env");
+            // Look up our data source
+            dataSource = (DataSource)
+                    envCtx.lookup("jdbc/Employee_Vacations_Web_App_B");
+
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
     }
+
+
+    // Initialize the servlet.
+    @Override
+    public void init() throws ServletException
+    {
+        super.init();
+        try
+        {
+            dbUtilClient = new DBUtilClient(dataSource);
+            loginDao = new LoginDao();
+        }
+        catch (Exception e)
+        {
+            throw new ServletException(e);
+        }
+    }
+
+    //    public void init()
+    //    {
+    //        loginDao = new LoginDao();
+    //    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -51,16 +88,27 @@ public class LoginControllerServlet extends HttpServlet {
         try {
             if (loginDao.validate(loginBean))
             {
-                int id = Integer.parseInt("id");
-                List<HolidayRequest> holidayRequestList = dbUtilClient.getHolidayRequests(id);
+                List<HolidayRequest> holidayRequestList = dbUtilClient.getHolidayRequests(username);
 
-                // Adding the list of request to the correct attribute.
-                request.setAttribute("HolidaysRequestsList", holidayRequestList);
-                System.out.println(holidayRequestList.size());
+                if(holidayRequestList.size() == 0)
+                {
+                    List<HolidayRequest> holidayRequestListB = dbUtilClient.getHolidayRequestsB();
+                    request.setAttribute("HolidaysRequestsList",holidayRequestListB);
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("holidayRequestList.jsp");
+                    dispatcher.forward(request, response);
+                }
 
-                // Sending the information to the JSP file.
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/holidayRequestsListB.jsp");
-                dispatcher.forward(request,response);
+                else
+                {
+                    // Adding the list of request to the correct attribute.
+                    request.setAttribute("HolidaysRequestsList", holidayRequestList);
+                    System.out.println(holidayRequestList.size());
+
+                    // Sending the information to the JSP file.
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/holidayRequestsList.jsp");
+                    dispatcher.forward(request,response);
+                }
+
             }
             else
             {
@@ -73,21 +121,4 @@ public class LoginControllerServlet extends HttpServlet {
         }
 
     }
-
-    // Send the information to the JSP to show the Employee.
-//    private void listHolidayRequests(HttpServletRequest request, HttpServletResponse response) throws Exception
-//    {
-//        // Getting the information from the correct table.
-//        int id = Integer.parseInt("id");
-//        List<HolidayRequest> holidayRequestList = dbUtilClient.getHolidayRequests(id);
-//
-//        // Adding the list of request to the correct attribute.
-//        request.setAttribute("HolidaysRequestsList", holidayRequestList);
-//        System.out.println(holidayRequestList.size());
-//
-//        // Sending the information to the JSP file.
-//        RequestDispatcher dispatcher = request.getRequestDispatcher("/holidayRequestsListB.jsp");
-//        dispatcher.forward(request,response);
-//
-//    }
 }

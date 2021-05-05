@@ -81,9 +81,10 @@
     <tr>
         <th scope="col">Request ID</th>
         <th scope="col">Employee Who Applied</th>
+        <th scope="col">Employee Login</th>
         <th scope="col">From When</th>
         <th scope="col">Until</th>
-        <th scope="col">Petition Status</th>
+        <th scope="col">Status</th>
     </tr>
     </thead>
 
@@ -93,9 +94,10 @@
         <tr>
             <th scope="row">${tmpRequest.id}</th>
             <td>${tmpRequest.idEmployeeApplicant}</td>
+            <td>${tmpRequest.loginEmployeeApplicant}</td>
             <td>${tmpRequest.startDateHol}</td>
             <td>${tmpRequest.endDateHol}</td>
-            <td>${tmpRequest.state}</td>
+            <td>${tmpRequest.status}</td>
         </tr>
 
     </c:forEach>

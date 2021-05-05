@@ -93,12 +93,13 @@ public class HolidayRequestController extends HttpServlet
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         int idEmployeeApplicant = Integer.parseInt(request.getParameter("idEmployeeApplicant"));
+        String loginEmployeeApplicant = request.getParameter("loginEmployeeApplicant");
         LocalDate startDateHol = LocalDate.parse(request.getParameter("startDateHol"),dateFormat);
         LocalDate endDateHol = LocalDate.parse(request.getParameter("endDateHol"),dateFormat);
         String status = "Sent";
 
         // Making the request.
-        HolidayRequest holidayRequest = new HolidayRequest(idEmployeeApplicant,startDateHol,endDateHol,status);
+        HolidayRequest holidayRequest = new HolidayRequest(idEmployeeApplicant,loginEmployeeApplicant,startDateHol,endDateHol,status);
         holidayRequestDao.insertHolidayRequest(holidayRequest);
         response.sendRedirect("LIST");
 
@@ -108,7 +109,7 @@ public class HolidayRequestController extends HttpServlet
     {
         int id = Integer.parseInt(request.getParameter("id"));
         holidayRequestDao.deleteHolidayRequest(id);
-        response.sendRedirect("list");
+        response.sendRedirect("LIST");
 
     }
 
@@ -127,11 +128,12 @@ public class HolidayRequestController extends HttpServlet
 
         int id = Integer.parseInt(request.getParameter("id"));
         int idEmployeeApplicant = Integer.parseInt(request.getParameter("idEmployeeApplicant"));
+        String loginEmployeeApplicant = request.getParameter("loginEmployeeApplicant");
         LocalDate startDateHol = LocalDate.parse(request.getParameter("startDateHol"), dateFormat);
         LocalDate endDateHol = LocalDate.parse(request.getParameter("endDateHol"), dateFormat);
         String status =  request.getParameter("status");
 
-        HolidayRequest holidayRequest = new HolidayRequest(id, idEmployeeApplicant,startDateHol, endDateHol, status);
+        HolidayRequest holidayRequest = new HolidayRequest(id, idEmployeeApplicant,loginEmployeeApplicant, startDateHol, endDateHol, status);
         holidayRequestDao.updateHolidayRequest(holidayRequest);
 
         // List again the requests made.
@@ -143,7 +145,7 @@ public class HolidayRequestController extends HttpServlet
     {
         List<HolidayRequest> holidayRequestList = holidayRequestDao.selectAllHolidayRequests();
         request.setAttribute("HolidaysRequestsList", holidayRequestList);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("holidaysRequestsList.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("holidaysRequestsListB.jsp");
         dispatcher.forward(request,response);
     }
 

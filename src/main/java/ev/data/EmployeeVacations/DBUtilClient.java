@@ -68,7 +68,7 @@ public class DBUtilClient extends DBUtil
 
     // GET holidays requests.
     @Override
-    List<HolidayRequest> getHolidayRequests(int employeeID) throws Exception
+    List<HolidayRequest> getHolidayRequests(String loginEmployeeApplicant) throws Exception
     {
         List<HolidayRequest> HolidayRequests = new ArrayList<>();
 
@@ -80,9 +80,9 @@ public class DBUtilClient extends DBUtil
             conn = dataSource.getConnection();
 
             // Order to see the table holiday request by the user log in, where username and passcode equal.
-            String sql = "SELECT * FROM VacationsDatabaseB.HolidayRequest WHERE idEmployeeApplicant = ?";
+            String sql = "SELECT * FROM VacationsDatabaseB.HolidayRequest WHERE loginEmployeeApplicant = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setInt(1,employeeID);
+            preparedStatement.setString(1,loginEmployeeApplicant);
             System.out.println(preparedStatement);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -99,7 +99,51 @@ public class DBUtilClient extends DBUtil
                 LocalDate endDateHol = LocalDate.parse(resultSet.getString("endDateHol"),dateFormat);
                 String state = resultSet.getString("status");
 
-                HolidayRequests.add(new HolidayRequest(id,idEmployeeApplicant,startDateHol,endDateHol,state));
+                HolidayRequests.add(new HolidayRequest(id,idEmployeeApplicant, loginEmployeeApplicant, startDateHol,endDateHol,state));
+            }
+
+        }
+        catch (SQLException e)
+        {
+            JDBCUtils.printSQLException(e);
+        }
+
+        return HolidayRequests;
+    }
+
+    @Override
+    List<HolidayRequest> getHolidayRequestsB() throws Exception
+    {
+        List<HolidayRequest> HolidayRequests = new ArrayList<>();
+
+        Connection conn = null;
+
+        try
+        {
+            // Connection with the DataBase VacationsDatabase
+            conn = dataSource.getConnection();
+
+            // Order to see the table holiday request by the user log in, where username and passcode equal.
+            String sql = "SELECT * FROM VacationsDatabaseB.HolidayRequest";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            System.out.println(preparedStatement);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Results.
+            while(resultSet.next())
+            {
+                // To set the date with the correct format of MySQL.
+                DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+                int id = resultSet.getInt("id");
+                int idEmployeeApplicant = resultSet.getInt("idEmployeeApplicant");
+                String loginEmployeeApplicant = resultSet.getString("loginEmployeeApplicant");
+                LocalDate startDateHol = LocalDate.parse(resultSet.getString("startDateHol"),dateFormat);
+                LocalDate endDateHol = LocalDate.parse(resultSet.getString("endDateHol"),dateFormat);
+                String state = resultSet.getString("status");
+
+                HolidayRequests.add(new HolidayRequest(id,idEmployeeApplicant, loginEmployeeApplicant, startDateHol,endDateHol,state));
             }
 
         }

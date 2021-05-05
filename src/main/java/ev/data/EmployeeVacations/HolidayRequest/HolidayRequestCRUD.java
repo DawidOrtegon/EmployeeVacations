@@ -15,12 +15,12 @@ public class HolidayRequestCRUD implements HolidayRequestDao
 {
     // Declaration of the queries as FINAL to have easy access to them.
     private static final String INSERT_HOLIDAY_REQUEST_SQL = "INSERT INTO VacationsDatabaseB.HolidayRequest" +
-            "  (idEmployeeApplicant, startDateHol, endDateHol, status) VALUES " + " (?, ?, ?, ?);";
+            "  (idEmployeeApplicant, loginEmployeeApplicant, startDateHol, endDateHol, status) VALUES " + " (?, ?, ?, ?, ?);";
 
     private static final String SELECT_HOLIDAY_REQUEST_BY_ID =  "SELECT id,idEmployeeApplicant,startDateHol,endDateHol,status FROM VacationsDatabaseB.HolidayRequest where id =?";
     private static final String SELECT_ALL_HOLIDAY_REQUESTS = "SELECT * FROM VacationsDatabaseB.HolidayRequest;";
     private static final String DELETE_HOLIDAY_REQUEST_BY_ID = "DELETE FROM VacationsDatabaseB.HolidayRequest WHERE id = ?;";
-    private static final String UPDATE_HOLIDAY_REQUEST = "UPDATE VacationsDatabaseB.HolidayRequest SET idEmployeeApplicant = ?, startDateHol= ?, endDateHol =?, status =? WHERE id = ?;";
+    private static final String UPDATE_HOLIDAY_REQUEST = "UPDATE VacationsDatabaseB.HolidayRequest SET idEmployeeApplicant = ?, loginEmployeeApplicant = ?, startDateHol= ?, endDateHol =?, status =? WHERE id = ?;";
 
     // Constructor of the class.
     public HolidayRequestCRUD() {
@@ -35,9 +35,10 @@ public class HolidayRequestCRUD implements HolidayRequestDao
         try(Connection connection = JDBCUtils.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_HOLIDAY_REQUEST_SQL))
         {
             preparedStatement.setInt(1, holidayRequest.getIdEmployeeApplicant());
-            preparedStatement.setDate(2, JDBCUtils.getSQLDate(holidayRequest.getStartDateHol()));
-            preparedStatement.setDate(3, JDBCUtils.getSQLDate(holidayRequest.getEndDateHol()));
-            preparedStatement.setString(4, holidayRequest.getStatus());
+            preparedStatement.setString(2, holidayRequest.getLoginEmployeeApplicant());
+            preparedStatement.setDate(3, JDBCUtils.getSQLDate(holidayRequest.getStartDateHol()));
+            preparedStatement.setDate(4, JDBCUtils.getSQLDate(holidayRequest.getEndDateHol()));
+            preparedStatement.setString(5, holidayRequest.getStatus());
             System.out.println(preparedStatement);
             preparedStatement.executeUpdate();
         }
@@ -70,12 +71,13 @@ public class HolidayRequestCRUD implements HolidayRequestDao
             {
                 int id = resultSet.getInt("id");
                 int idEmployeeApplicant = resultSet.getInt("idEmployeeApplicant");
+                String loginEmployeeApplicant = resultSet.getString("loginEmployeeApplicant");
                 LocalDate startDateHol = resultSet.getDate("startDateHol").toLocalDate();
                 LocalDate endDateHol = resultSet.getDate("endDateHol").toLocalDate();
                 String status = resultSet.getString("status");
 
                 // Creation of the request to show.
-                holidayRequest = new HolidayRequest(id,idEmployeeApplicant,startDateHol,endDateHol,status);
+                holidayRequest = new HolidayRequest(id,idEmployeeApplicant,loginEmployeeApplicant, startDateHol,endDateHol,status);
             }
 
         }
@@ -107,12 +109,13 @@ public class HolidayRequestCRUD implements HolidayRequestDao
             {
                 int id = resultSet.getInt("id");
                 int idEmployeeApplicant = resultSet.getInt("idEmployeeApplicant");
+                String loginEmployeeApplicant = resultSet.getString("loginEmployeeApplicant");
                 LocalDate startDateHol = resultSet.getDate("startDateHol").toLocalDate();
                 LocalDate endDateHol = resultSet.getDate("endDateHol").toLocalDate();
                 String status = resultSet.getString("status");
 
                 // Adding to the list of requests.
-                holidayRequestsList.add(new HolidayRequest(id, idEmployeeApplicant, startDateHol, endDateHol,status));
+                holidayRequestsList.add(new HolidayRequest(id, idEmployeeApplicant, loginEmployeeApplicant, startDateHol, endDateHol,status));
             }
 
 
@@ -145,9 +148,10 @@ public class HolidayRequestCRUD implements HolidayRequestDao
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_HOLIDAY_REQUEST);
             preparedStatement.setInt(1,holidayRequest.getId());
             preparedStatement.setInt(2,holidayRequest.getIdEmployeeApplicant());
-            preparedStatement.setDate(3,JDBCUtils.getSQLDate(holidayRequest.getStartDateHol()));
-            preparedStatement.setDate(4,JDBCUtils.getSQLDate(holidayRequest.getEndDateHol()));
-            preparedStatement.setString(5,holidayRequest.getStatus());
+            preparedStatement.setString(3,holidayRequest.getLoginEmployeeApplicant());
+            preparedStatement.setDate(4,JDBCUtils.getSQLDate(holidayRequest.getStartDateHol()));
+            preparedStatement.setDate(5,JDBCUtils.getSQLDate(holidayRequest.getEndDateHol()));
+            preparedStatement.setString(6,holidayRequest.getStatus());
 
             holidayRequestUpdated = preparedStatement.executeUpdate() > 0;
         }
