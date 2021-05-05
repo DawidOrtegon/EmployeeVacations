@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 
@@ -43,6 +44,10 @@
     <div class="container d-flex align-items-center">
         <h1 class="logo me-auto"><a href="index.html">Your Holidays Planner<span>.</span></a></h1>
         <nav id="navbar" class="navbar order-last order-lg-0">
+            <ul>
+                <li><a class="nav-link scroll " href="<%=request.getContextPath()%>/list">All Requests</a></li>
+                <li><a class="nav-link scroll " href="loginB.jsp">Log Out</a></li>
+            </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->
 
@@ -55,58 +60,42 @@
     <div class="container">
         <ol>
             <li><a href="index.html">Home</a></li>
-            <li>Log In</li>
+            <li>Submit Request</li>
         </ol>
     </div>
 </section><!-- End Breadcrumbs -->
 
 <!--<main id="main">-->
 <section id="contact" class="contact">
-    <div class="row form-group"></div>
-    <div class="row form-group"></div>
-    <div class="row form-group"></div>
-    <div class="row form-group"></div>
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <form action="<%=request.getContextPath()%>/loginControllerServlet" method="post" role="form">
+                <form action="<%=request.getContextPath()%>/HolidayRequestController" method="post" role="form">
                     <div class="container">
+                        <input type="hidden" name="command" value="INSERT">
                         <div class="form-group">
-                            <label for="username">User Name:</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
+                            <label for="idEmployeeApplicant">ID Applicant Employee</label>
+                            <input type="text" class="form-control" name="idEmployeeApplicant"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="startDateHol">Start Date</label>
+                            <input type="text" class="form-control" name="startDateHol"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="endDateHol">End Date</label>
+                            <input type="text" class="form-control" name="endDateHol"/>
                         </div>
 
-                        <div class="row form-group"></div>
-                        <div class="row form-group"></div>
-                        <div class="row form-group"></div>
-                        <div class="row form-group"></div>
-
-                        <div class="form-group">
-                            <label for="password">Password:</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
-
-                        <div class="row form-group"></div>
-                        <div class="row form-group"></div>
-                        <div class="row form-group"></div>
-                        <div class="row form-group"></div>
-                        <div class="row form-group"></div>
-                    </div>
-
-                    <div class="my-lg-3">
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-info">Submit</button>
+                        <div class="my-lg-3">
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-info">Submit Request</button>
+                            </div>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <div class="row form-group"></div>
-    <div class="row form-group"></div>
-    <div class="row form-group"></div>
-    <div class="row form-group"></div>
-    <div class="row form-group"></div>
 </section><!-- End Contact Section -->
 
 <!-- ======= About Section ======= -->

@@ -4,10 +4,7 @@ import ev.data.EmployeeVacations.Entities.Employee;
 import ev.data.EmployeeVacations.Entities.HolidayRequest;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -71,13 +68,11 @@ public class DBUtilClient extends DBUtil
 
     // GET holidays requests.
     @Override
-    List<HolidayRequest> getHolidayRequests() throws Exception
+    List<HolidayRequest> getHolidayRequests(int employeeID) throws Exception
     {
         List<HolidayRequest> HolidayRequests = new ArrayList<>();
 
         Connection conn = null;
-        Statement statement = null;
-        ResultSet resultSet =  null;
 
         try
         {
@@ -85,12 +80,14 @@ public class DBUtilClient extends DBUtil
             conn = dataSource.getConnection();
 
             // Order to see the table holiday request by the user log in, where username and passcode equal.
-            String sql = "SELECT * FROM VacationsDatabaseB.HolidayRequest";
-            statement = conn.createStatement();
+            String sql = "SELECT * FROM VacationsDatabaseB.HolidayRequest WHERE idEmployeeApplicant = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1,employeeID);
+            System.out.println(preparedStatement);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             // Results.
-            resultSet = statement.executeQuery(sql);
-
             while(resultSet.next())
             {
                 // To set the date with the correct format of MySQL.
@@ -100,16 +97,15 @@ public class DBUtilClient extends DBUtil
                 int idEmployeeApplicant = resultSet.getInt("idEmployeeApplicant");
                 LocalDate startDateHol = LocalDate.parse(resultSet.getString("startDateHol"),dateFormat);
                 LocalDate endDateHol = LocalDate.parse(resultSet.getString("endDateHol"),dateFormat);
-                String state = resultSet.getString("state");
+                String state = resultSet.getString("status");
 
                 HolidayRequests.add(new HolidayRequest(id,idEmployeeApplicant,startDateHol,endDateHol,state));
             }
 
         }
-        finally
+        catch (SQLException e)
         {
-            // Close objects JDBC
-            close(conn, statement, resultSet);
+            JDBCUtils.printSQLException(e);
         }
 
         return HolidayRequests;

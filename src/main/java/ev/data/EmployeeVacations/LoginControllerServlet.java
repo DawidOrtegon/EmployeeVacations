@@ -1,6 +1,12 @@
 package ev.data.EmployeeVacations;
 
+import ev.data.EmployeeVacations.DBUtilClient;
+import ev.data.EmployeeVacations.Entities.HolidayRequest;
+import ev.data.EmployeeVacations.Login.LoginBean;
+import ev.data.EmployeeVacations.Login.LoginDao;
+
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,12 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/loginServlet")
+@WebServlet("/loginControllerServlet")
 public class LoginControllerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private LoginDao loginDao;
+    private DBUtilClient dbUtilClient;
 
-    public void init() {
+    public void init()
+    {
         loginDao = new LoginDao();
     }
 
@@ -26,10 +34,14 @@ public class LoginControllerServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        authenticate(request, response);
+        try {
+            authenticate(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private void authenticate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void authenticate(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         LoginBean loginBean = new LoginBean();
@@ -37,17 +49,45 @@ public class LoginControllerServlet extends HttpServlet {
         loginBean.setPassword(password);
 
         try {
-            if (loginDao.validate(loginBean)) {
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/initial_view_Employee.jsp");
-                dispatcher.forward(request, response);
-            } else {
+            if (loginDao.validate(loginBean))
+            {
+                int id = Integer.parseInt("id");
+                List<HolidayRequest> holidayRequestList = dbUtilClient.getHolidayRequests(id);
+
+                // Adding the list of request to the correct attribute.
+                request.setAttribute("HolidaysRequestsList", holidayRequestList);
+                System.out.println(holidayRequestList.size());
+
+                // Sending the information to the JSP file.
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/holidayRequestsListB.jsp");
+                dispatcher.forward(request,response);
+            }
+            else
+            {
                 HttpSession session = request.getSession();
-                // session.setAttribute("user", username);
-                // response.sendRedirect("loginB.jsp");
+                session.setAttribute("user", username);
+                response.sendRedirect("loginB.jsp");
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
     }
+
+    // Send the information to the JSP to show the Employee.
+//    private void listHolidayRequests(HttpServletRequest request, HttpServletResponse response) throws Exception
+//    {
+//        // Getting the information from the correct table.
+//        int id = Integer.parseInt("id");
+//        List<HolidayRequest> holidayRequestList = dbUtilClient.getHolidayRequests(id);
+//
+//        // Adding the list of request to the correct attribute.
+//        request.setAttribute("HolidaysRequestsList", holidayRequestList);
+//        System.out.println(holidayRequestList.size());
+//
+//        // Sending the information to the JSP file.
+//        RequestDispatcher dispatcher = request.getRequestDispatcher("/holidayRequestsListB.jsp");
+//        dispatcher.forward(request,response);
+//
+//    }
 }

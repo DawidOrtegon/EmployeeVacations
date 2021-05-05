@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Inner Page - Presento Bootstrap Template</title>
+    <title>Your Holidays Planner</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -14,7 +14,8 @@
     <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="assets/vendor/aos/aos.css" rel="stylesheet">
@@ -72,7 +73,7 @@
 
                         <div class="form-group">
                             <label for="uname">First Name:</label>
-                            <input type="text" class="form-control" id="uname"  name="firstName" required>
+                            <input type="text" class="form-control" id="uname" name="firstName" required>
                         </div>
 
                         <div class="form-group">
@@ -82,17 +83,17 @@
 
                         <div class="form-group">
                             <label for="username">User Name:</label>
-                            <input type="text" class="form-control" id="username"  name="username" required>
+                            <input type="text" class="form-control" id="username" name="username" required>
                         </div>
 
                         <div class="form-group">
                             <label for="password">Password:</label>
-                            <input type="password" class="form-control" id="password"  name="password" required>
+                            <input type="password" class="form-control" id="password" name="password" required>
                         </div>
 
                         <div class="form-group">
                             <label for="startDate">Start Date:</label>
-                            <input type="text" class="form-control" id="startDate"  name="startDate" required>
+                            <input type="text" class="form-control" id="startDate" name="startDate" required>
                         </div>
 
                         <div class="form-group">
@@ -131,7 +132,8 @@
                         <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="100">
                             <i class="bx bx-receipt"></i>
                             <h4>Easy to manage</h4>
-                            <p>Never so easy to make a request, just insert that the data and immediately your manager will receive the notification.</p>
+                            <p>Never so easy to make a request, just insert that the data and immediately your manager
+                                will receive the notification.</p>
                         </div>
                         <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="200">
                             <i class="bx bx-cube-alt"></i>
@@ -141,12 +143,14 @@
                         <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="300">
                             <i class="bx bx-images"></i>
                             <h4>Fast</h4>
-                            <p>Just sign up to be part of the employees who use the platform, no sensitive data required, just the most basic info: Your start Date, name and last name. </p>
+                            <p>Just sign up to be part of the employees who use the platform, no sensitive data
+                                required, just the most basic info: Your start Date, name and last name. </p>
                         </div>
                         <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="400">
                             <i class="bx bx-shield"></i>
                             <h4>Secure</h4>
-                            <p>Since there is an internal platform, only your colleagues can see all the request with special id.</p>
+                            <p>Since there is an internal platform, only your colleagues can see all the request with
+                                special id.</p>
                         </div>
                     </div>
                 </div><!-- End .content-->
@@ -202,7 +206,8 @@
     </div>
 </footer><!-- End Footer -->
 
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
 <script src="assets/vendor/aos/aos.js"></script>
