@@ -45,8 +45,6 @@
         <nav id="navbar" class="navbar order-last order-lg-0">
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->
-
-        <a href="loginAdmin.jsp" class="get-started-btn scrollto">Admin Log In</a>
     </div>
 </header><!-- End Header -->
 
@@ -55,7 +53,7 @@
     <div class="container">
         <ol>
             <li><a href="index.html">Home</a></li>
-            <li>Log In</li>
+            <li>Admin Login</li>
         </ol>
     </div>
 </section><!-- End Breadcrumbs -->
@@ -69,7 +67,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <form action="<%=request.getContextPath()%>/loginControllerServlet" method="post" role="form">
+                <form action="<%=request.getContextPath()%>/LoginADMINControllerServlet" method="post" role="form">
                     <div class="container">
                         <div class="form-group">
                             <label for="username">User Name:</label>
@@ -84,6 +82,17 @@
                         <div class="form-group">
                             <label for="password">Password:</label>
                             <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+
+                        <div class="row form-group"></div>
+                        <div class="row form-group"></div>
+                        <div class="row form-group"></div>
+                        <div class="row form-group"></div>
+                        <div class="row form-group"></div>
+
+                        <div class="form-group">
+                            <label for="isManager">Are you a Manager:</label>
+                            <input type="text" class="form-control" id="isManager" name="isManager" required>
                         </div>
 
                         <div class="row form-group"></div>

@@ -141,7 +141,7 @@ public class DBUtilClient extends DBUtil
                 String loginEmployeeApplicant = resultSet.getString("loginEmployeeApplicant");
                 LocalDate startDateHol = LocalDate.parse(resultSet.getString("startDateHol"),dateFormat);
                 LocalDate endDateHol = LocalDate.parse(resultSet.getString("endDateHol"),dateFormat);
-                String state = resultSet.getString("status");
+                String state = "Not Available";
 
                 HolidayRequests.add(new HolidayRequest(id,idEmployeeApplicant, loginEmployeeApplicant, startDateHol,endDateHol,state));
             }

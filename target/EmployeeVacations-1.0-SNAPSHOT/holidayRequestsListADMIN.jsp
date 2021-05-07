@@ -57,7 +57,7 @@
     <div class="container">
         <ol>
             <li><a href="index.html">Home</a></li>
-            <li>Current Requests</li>
+            <li>Current Requests To Check</li>
         </ol>
     </div>
 </section><!-- End Breadcrumbs -->
@@ -90,39 +90,41 @@
     </thead>
 
     <tbody>
-    <c:forEach var="tmpRequest" items="${HolidaysRequestsList}">
+        <c:forEach var="tmpRequest" items="${HolidaysRequestsList}">
 
-    <c:url var="updateLink" value="HolidayRequestController">
-    <c:param name="command" value="UPDATE"></c:param>
-    <c:param name="id" value="${tmpRequest.id}"></c:param>
-    </c:url>
+        <c:url var="updateStatus" value="HolidayRequestController">
+            <c:param name="command" value="UPDATE_ADMIN"></c:param>
+            <c:param name="id" value="${tmpRequest.id}"></c:param>
+        </c:url>
 
-    <c:url var="deleteLink" value="HolidayRequestController">
-    <c:param name="command" value="DELETE"></c:param>
-    <c:param name="id" value="${tmpRequest.id}"></c:param>
-    </c:url>
+        <c:url var="deleteLink" value="HolidayRequestController">
+            <c:param name="command" value="DELETE"></c:param>
+            <c:param name="id" value="${tmpRequest.id}"></c:param>
+        </c:url>
 
-    <thead>
-        <tr>
-            <th scope="row">${tmpRequest.id}</th>
-            <td>${tmpRequest.idEmployeeApplicant}</td>
-            <td>${tmpRequest.loginEmployeeApplicant}</td>
-            <td>${tmpRequest.startDateHol}</td>
-            <td>${tmpRequest.endDateHol}</td>
-            <td>${tmpRequest.status}</td>
-            <td>
-                <a href="${updateLink}">
-                <button type="button" class="btn btn-success align-content-center">Edit</button>
-            </a>
-                <a href="${deleteLink}"
-                   onclick="if(!(confirm('Confirm Delete ?? :)'))) return false">
-                    <button type="button" class="btn btn-danger align-content-center">Delete</button>
-                </a>
-            </td>
-        </tr>
-    </thead>
-    </c:forEach>
+        <thead>
+            <tr>
+                <th scope="row">${tmpRequest.id}</th>
+                <td>${tmpRequest.idEmployeeApplicant}</td>
+                <td>${tmpRequest.loginEmployeeApplicant}</td>
+                <td>${tmpRequest.startDateHol}</td>
+                <td>${tmpRequest.endDateHol}</td>
+                <td>${tmpRequest.status}</td>
+                <td><a href="${updateStatus}">
+                    <button type="button" class="btn btn-success align-content-center">Update Status</button>
+                    </a>
 
+                    <a href="${deleteLink}"
+                       onclick="if(!(confirm('Confirm'))) return false">
+                        <button type="button" class="btn btn-danger align-content-center">Delete</button>
+                    </a>
+                </td>
+            </tr>
+        </thead>
+
+
+        </c:forEach>
+    </tbody>
 </table>
 
 <%--        <div class="row form-group"></div>--%>

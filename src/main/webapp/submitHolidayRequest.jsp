@@ -45,7 +45,6 @@
         <h1 class="logo me-auto"><a href="index.html">Your Holidays Planner<span>.</span></a></h1>
         <nav id="navbar" class="navbar order-last order-lg-0">
             <ul>
-                <li><a class="nav-link scroll " href="<%=request.getContextPath()%>/list">All Requests</a></li>
                 <li><a class="nav-link scroll " href="loginB.jsp">Log Out</a></li>
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
@@ -70,7 +69,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <form action="<%=request.getContextPath()%>/HolidayRequestController" method="post" role="form">
+                <form action="${pageContext.request.contextPath}/HolidayRequestController" method="post" role="form">
                     <div class="container">
                         <input type="hidden" name="command" value="INSERT">
                         <div class="form-group">

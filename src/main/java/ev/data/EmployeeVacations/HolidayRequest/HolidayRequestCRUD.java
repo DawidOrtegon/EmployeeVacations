@@ -22,6 +22,11 @@ public class HolidayRequestCRUD implements HolidayRequestDao
     private static final String DELETE_HOLIDAY_REQUEST_BY_ID = "DELETE FROM VacationsDatabaseB.HolidayRequest WHERE id = ?;";
     private static final String UPDATE_HOLIDAY_REQUEST = "UPDATE VacationsDatabaseB.HolidayRequest SET idEmployeeApplicant = ?, loginEmployeeApplicant = ?, startDateHol= ?, endDateHol =?, status =? WHERE id = ?;";
 
+    // FOR THE ADMIN
+    private static final String UPDATE_HOLIDAY_REQUEST_ADMIN = "UPDATE VacationsDatabaseB.HolidayRequest SET status =? WHERE id = ?;";
+
+
+
     // Constructor of the class.
     public HolidayRequestCRUD() {
     }
@@ -157,4 +162,19 @@ public class HolidayRequestCRUD implements HolidayRequestDao
         }
         return holidayRequestUpdated;
     }
+
+    @Override
+    public boolean updateHolidayRequestADMIN(HolidayRequest holidayRequest) throws SQLException {
+        boolean holidayRequestUpdated;
+        try(Connection connection = JDBCUtils.getConnection())
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_HOLIDAY_REQUEST_ADMIN);
+            preparedStatement.setInt(1,holidayRequest.getId());
+            preparedStatement.setString(2,holidayRequest.getStatus());
+
+            holidayRequestUpdated = preparedStatement.executeUpdate() > 0;
+        }
+        return holidayRequestUpdated;
+    }
+
 }

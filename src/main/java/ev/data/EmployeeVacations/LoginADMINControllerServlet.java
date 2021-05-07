@@ -1,12 +1,8 @@
 package ev.data.EmployeeVacations;
 
-import ev.data.EmployeeVacations.DBUtilClient;
 import ev.data.EmployeeVacations.Entities.HolidayRequest;
 import ev.data.EmployeeVacations.Login.LoginBean;
 import ev.data.EmployeeVacations.Login.LoginDao;
-
-import java.io.IOException;
-import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -19,15 +15,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.List;
 
-@WebServlet("/loginControllerServlet")
-public class LoginControllerServlet extends HttpServlet {
+@WebServlet("/LoginADMINControllerServlet")
+public class LoginADMINControllerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private DataSource dataSource;
     private LoginDao loginDao;
     private DBUtilClient dbUtilClient;
 
-    public LoginControllerServlet()
+    public LoginADMINControllerServlet()
     {
         Context initContext =  null;
         try {
@@ -59,52 +57,38 @@ public class LoginControllerServlet extends HttpServlet {
         }
     }
 
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("/loginB.jsp");
+        response.sendRedirect("/loginAdmin.jsp");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            authenticate(request, response);
+            authenticateB(request, response);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    // For the Employee.
-    private void authenticate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    // For the Manager
+    private void authenticateB(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        boolean isManager = Boolean.parseBoolean(request.getParameter("isManager"));
         LoginBean loginBean = new LoginBean();
         loginBean.setUsername(username);
         loginBean.setPassword(password);
+        loginBean.setManager(isManager);
 
         try {
-            if (loginDao.validate(loginBean))
+            if (loginDao.validateB(loginBean))
             {
-                List<HolidayRequest> holidayRequestList = dbUtilClient.getHolidayRequests(username);
-
-                if(holidayRequestList.size() == 0)
-                {
-                    List<HolidayRequest> holidayRequestListB = dbUtilClient.getHolidayRequestsB();
-                    request.setAttribute("HolidaysRequestsList",holidayRequestListB);
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/holidayRequestsListB.jsp");
-                    dispatcher.forward(request, response);
-                }
-
-                else
-                {
-                    // Adding the list of request to the correct attribute.
-                    request.setAttribute("HolidaysRequestsList", holidayRequestList);
-                    System.out.println(holidayRequestList.size());
-
-                    // Sending the information to the JSP file.
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/holidayRequestsList.jsp");
-                    dispatcher.forward(request,response);
-                }
-
+                List<HolidayRequest> holidayRequestListADMIN = dbUtilClient.getHolidayRequestsB();
+                request.setAttribute("HolidaysRequestsList",holidayRequestListADMIN);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/holidayRequestsListADMIN.jsp");
+                dispatcher.forward(request, response);
             }
             else
             {
@@ -115,6 +99,5 @@ public class LoginControllerServlet extends HttpServlet {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 }

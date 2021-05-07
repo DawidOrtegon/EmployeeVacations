@@ -32,4 +32,27 @@ public class LoginDao
         }
         return status;
     }
+
+    public boolean validateB(LoginBean loginBean) throws ClassNotFoundException {
+        boolean status = false;
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        try (Connection connection = JDBCUtils.getConnection();
+             // Step 2:Create a statement using connection object
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Employee WHERE login = ? AND password = ? AND manager = ?")) {
+            preparedStatement.setString(1, loginBean.getUsername());
+            preparedStatement.setString(2, loginBean.getPassword());
+            preparedStatement.setBoolean(3,loginBean.isManager());
+
+            System.out.println(preparedStatement);
+            ResultSet rs = preparedStatement.executeQuery();
+            status = rs.next();
+
+        } catch (SQLException e) {
+            // process sql exception
+            JDBCUtils.printSQLException(e);
+        }
+        return status;
+    }
 }

@@ -85,12 +85,24 @@
         <th scope="col">From When</th>
         <th scope="col">Until</th>
         <th scope="col">Status</th>
+        <th scope="col">Action</th>
     </tr>
     </thead>
 
     <tbody>
     <c:forEach var="tmpRequest" items="${HolidaysRequestsList}">
 
+    <c:url var="updateLink" value="HolidayRequestController">
+    <c:param name="command" value="UPDATE"></c:param>
+    <c:param name="id" value="${tmpRequest.id}"></c:param>
+    </c:url>
+
+    <c:url var="deleteLink" value="HolidayRequestController">
+    <c:param name="command" value="DELETE"></c:param>
+    <c:param name="id" value="${tmpRequest.id}"></c:param>
+    </c:url>
+
+    <thead>
         <tr>
             <th scope="row">${tmpRequest.id}</th>
             <td>${tmpRequest.idEmployeeApplicant}</td>
@@ -98,10 +110,18 @@
             <td>${tmpRequest.startDateHol}</td>
             <td>${tmpRequest.endDateHol}</td>
             <td>${tmpRequest.status}</td>
+            <td><a href="${updateLink}">
+                <button type="button" class="btn btn-success align-content-center">Edit</button>
+            </a>
+                <a href="${deleteLink}"
+                   onclick="if(!(confirm('Confirm the request submit :)'))) return false">
+                    <button type="button" class="btn btn-danger align-content-center">Delete</button>
+                </a>
+            </td>
         </tr>
-
+    </thead>
     </c:forEach>
-    </tbody>
+
 </table>
 
 <%--        <div class="row form-group"></div>--%>
