@@ -94,7 +94,7 @@ public class LoginADMINControllerServlet extends HttpServlet {
             {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", username);
-                response.sendRedirect("loginB.jsp");
+                response.sendRedirect("loginAdmin.jsp");
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

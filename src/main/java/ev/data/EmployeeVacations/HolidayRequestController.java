@@ -34,9 +34,8 @@ public class HolidayRequestController extends HttpServlet {
     private LoginDao loginDao;
     private DBUtilClient dbUtilClient;
 
-    public HolidayRequestController()
-    {
-        Context initContext =  null;
+    public HolidayRequestController() {
+        Context initContext = null;
         try {
             initContext = new InitialContext();
             Context envCtx = (Context) initContext.lookup("java:comp/env");
@@ -49,17 +48,13 @@ public class HolidayRequestController extends HttpServlet {
         }
     }
 
-    public void init() throws ServletException
-    {
+    public void init() throws ServletException {
         super.init();
-        try
-        {
+        try {
             dbUtilClient = new DBUtilClient(dataSource);
             loginDao = new LoginDao();
             holidayRequestDao = new HolidayRequestCRUD();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             throw new ServletException(e);
         }
     }
@@ -117,6 +112,10 @@ public class HolidayRequestController extends HttpServlet {
                     listHolidayRequests(request, response);
                     break;
 
+                case "LOAD":
+                    loadRequest(request, response);
+                    break;
+
                 default:
                     RequestDispatcher dispatcher = request.getRequestDispatcher("/loginB.jsp");
                     dispatcher.forward(request, response);
@@ -171,16 +170,12 @@ public class HolidayRequestController extends HttpServlet {
 
         List<HolidayRequest> holidayRequestList = dbUtilClient.getHolidayRequests(username);
 
-        if (holidayRequestList.size() == 0)
-        {
+        if (holidayRequestList.size() == 0) {
             List<HolidayRequest> holidayRequestListB = dbUtilClient.getHolidayRequestsB();
             request.setAttribute("HolidaysRequestsList", holidayRequestListB);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/holidayRequestsListB.jsp");
             dispatcher.forward(request, response);
-        }
-
-        else
-        {
+        } else {
             // Adding the list of request to the correct attribute.
             holidayRequestDao.deleteHolidayRequest(id);
             List<HolidayRequest> holidayRequestListC = holidayRequestDao.selectAllHolidayRequests();
@@ -194,6 +189,7 @@ public class HolidayRequestController extends HttpServlet {
 
     }
 
+    // DELETE REQUEST BY ADMIN
     private void deleteHolidayRequestADMIN(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         int id = Integer.parseInt(request.getParameter("id"));
         holidayRequestDao.deleteHolidayRequest(id);
@@ -214,6 +210,7 @@ public class HolidayRequestController extends HttpServlet {
         request.setAttribute("holidayRequest", existingHolidayRequest);
         dispatcher.forward(request, response);
     }
+
 
     // UPDATE HOLIDAY REQUEST
     private void updateHolidayRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -244,6 +241,25 @@ public class HolidayRequestController extends HttpServlet {
 
     }
 
+    private void loadRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        // odczytanie id telefonu z formularza
+        int id = Integer.parseInt(request.getParameter("id"));
+        System.out.println("id 1" + id);
+
+        // pobranie  danych telefonu z BD
+        HolidayRequest holidayRequest = holidayRequestDao.selectHolidayRequestById(id);
+        System.out.println(holidayRequest + "1");
+
+        // przekazanie telefonu do obiektu request
+        // request.setAttribute("HolidaysRequestsList", holidayRequest);
+
+        // wyslanie danych do formmularza JSP (update_phone_form)
+        RequestDispatcher dispatcher = request.getRequestDispatcher("UpdateRequestADMIN.jsp");
+        dispatcher.forward(request, response);
+
+    }
+
 
     // UPDATE HOLIDAY REQUEST ADMIN
     private void updateHolidayRequestADMIN(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -251,29 +267,34 @@ public class HolidayRequestController extends HttpServlet {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         int id = Integer.parseInt(request.getParameter("id"));
-        System.out.println("id" + id);
+        System.out.println("id 2" + id);
 
-        int idEmployeeApplicant = Integer.parseInt(request.getParameter("idEmployeeApplicant"));
-        System.out.println("idEmployeeApplicant" + idEmployeeApplicant);
+        HolidayRequest holidayRequest = holidayRequestDao.selectHolidayRequestById(id);
 
-        String loginEmployeeApplicant = request.getParameter("loginEmployeeApplicant");
-        LocalDate startDateHol = LocalDate.parse(request.getParameter("startDateHol"), dateFormat);
-        LocalDate endDateHol = LocalDate.parse(request.getParameter("endDateHol"), dateFormat);
-        String status = request.getParameter("status");
 
-        HolidayRequest holidayRequest = new HolidayRequest(id, idEmployeeApplicant, loginEmployeeApplicant, startDateHol, endDateHol, status);
+//        int idEmployeeApplicant = Integer.parseInt(request.getParameter("idEmployeeApplicant"));
+//        System.out.println("idEmployeeApplicant " + idEmployeeApplicant);
+//        String loginEmployeeApplicant = request.getParameter("loginEmployeeApplicant");
+//        LocalDate startDateHol = LocalDate.parse(request.getParameter("startDateHol"), dateFormat);
+//        LocalDate endDateHol = LocalDate.parse(request.getParameter("endDateHol"), dateFormat);
+//        String status = request.getParameter("status");
+//        HolidayRequest holidayRequest = new HolidayRequest(id, idEmployeeApplicant, loginEmployeeApplicant, startDateHol, endDateHol, status);
+
+
+
         holidayRequestDao.updateHolidayRequestADMIN(holidayRequest);
+        System.out.println(holidayRequest + "4");
 
         List<HolidayRequest> holidayRequestListADMIN = holidayRequestDao.selectAllHolidayRequests();
+        System.out.println(holidayRequestListADMIN + "5");
         request.setAttribute("HolidaysRequestsList", holidayRequestListADMIN);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("holidaysRequestsListADMIN.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("holidayRequestsListADMIN.jsp");
         dispatcher.forward(request, response);
 
         // List again the requests made.
 //        response.sendRedirect("LIST");
 
     }
-
 
     // LIST ALL HOLIDAY REQUESTS
     private void listHolidayRequests(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {

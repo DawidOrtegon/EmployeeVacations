@@ -18,5 +18,7 @@ public interface HolidayRequestDao
 
     boolean updateHolidayRequestADMIN(HolidayRequest holidayRequest) throws SQLException;
 
+    boolean updateHolidayRequestADMIN_B(HolidayRequest holidayRequest) throws SQLException;
+
 
 }
