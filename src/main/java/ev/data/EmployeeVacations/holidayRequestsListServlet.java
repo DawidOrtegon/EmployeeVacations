@@ -83,7 +83,7 @@ public class holidayRequestsListServlet extends HttpServlet
         System.out.println(holidayRequestList.size());
 
         // Sending the information to the JSP file.
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/holidayRequestsList.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/holidayRequestsListB.jsp");
         dispatcher.forward(request,response);
 
     }

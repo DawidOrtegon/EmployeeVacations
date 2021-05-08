@@ -110,11 +110,12 @@
             <td>${tmpRequest.startDateHol}</td>
             <td>${tmpRequest.endDateHol}</td>
             <td>${tmpRequest.status}</td>
-            <td><a href="${updateLink}">
+            <td>
+                <a href="${updateLink}">
                 <button type="button" class="btn btn-success align-content-center">Edit</button>
             </a>
                 <a href="${deleteLink}"
-                   onclick="if(!(confirm('Confirm the request submit :)'))) return false">
+                   onclick="if(!(confirm('Confirm Delete ?? :)'))) return false">
                     <button type="button" class="btn btn-danger align-content-center">Delete</button>
                 </a>
             </td>

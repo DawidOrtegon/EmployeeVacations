@@ -98,7 +98,7 @@
         </c:url>
 
         <c:url var="deleteLink" value="HolidayRequestController">
-            <c:param name="command" value="DELETE"></c:param>
+            <c:param name="command" value="DELETE_ADMIN"></c:param>
             <c:param name="id" value="${tmpRequest.id}"></c:param>
         </c:url>
 
@@ -115,7 +115,7 @@
                     </a>
 
                     <a href="${deleteLink}"
-                       onclick="if(!(confirm('Confirm'))) return false">
+                       onclick="if(!(confirm('Confirm DELETE ADMIN'))) return false">
                         <button type="button" class="btn btn-danger align-content-center">Delete</button>
                     </a>
                 </td>

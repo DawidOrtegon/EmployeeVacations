@@ -104,10 +104,6 @@
     </tbody>
 </table>
 
-<%--        <div class="row form-group"></div>--%>
-<%--        <div class="row form-group"></div>--%>
-<%--        <div class="row form-group"></div>--%>
-
 <!-- ======= Footer ======= -->
 <footer id="footer">
 
