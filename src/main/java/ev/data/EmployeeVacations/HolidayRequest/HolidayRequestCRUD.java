@@ -172,6 +172,7 @@ public class HolidayRequestCRUD implements HolidayRequestDao
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_HOLIDAY_REQUEST_ADMIN);
             preparedStatement.setString(1,holidayRequest.getStatus());
             preparedStatement.setInt(2,holidayRequest.getId());
+            preparedStatement.execute();
 
             holidayRequestUpdated = preparedStatement.executeUpdate() > 0;
         }

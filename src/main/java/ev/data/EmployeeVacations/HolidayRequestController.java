@@ -158,7 +158,7 @@ public class HolidayRequestController extends HttpServlet {
 
     }
 
-    // DELETE REQUEST ADMIN
+    // DELETE REQUEST EMPLOYEE
     private void deleteHolidayRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         int id = Integer.parseInt(request.getParameter("id"));
         holidayRequestDao.deleteHolidayRequest(id);
@@ -245,16 +245,11 @@ public class HolidayRequestController extends HttpServlet {
 
         // odczytanie id telefonu z formularza
         int id = Integer.parseInt(request.getParameter("id"));
-        System.out.println("id 1" + id);
+        System.out.println("id 1" + " " + id);
 
-        // pobranie  danych telefonu z BD
         HolidayRequest holidayRequest = holidayRequestDao.selectHolidayRequestById(id);
         System.out.println(holidayRequest + "1");
 
-        // przekazanie telefonu do obiektu request
-        // request.setAttribute("HolidaysRequestsList", holidayRequest);
-
-        // wyslanie danych do formmularza JSP (update_phone_form)
         RequestDispatcher dispatcher = request.getRequestDispatcher("UpdateRequestADMIN.jsp");
         dispatcher.forward(request, response);
 
@@ -262,37 +257,33 @@ public class HolidayRequestController extends HttpServlet {
 
 
     // UPDATE HOLIDAY REQUEST ADMIN
-    private void updateHolidayRequestADMIN(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    private void updateHolidayRequestADMIN(HttpServletRequest request, HttpServletResponse response) throws Exception {
         // Format for the dated indicated.
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         int id = Integer.parseInt(request.getParameter("id"));
-        System.out.println("id 2" + id);
+        System.out.println("id 2" + " " + id);
+        String status = request.getParameter("status");
+        System.out.println("status 3" + " " + status);
 
         HolidayRequest holidayRequest = holidayRequestDao.selectHolidayRequestById(id);
 
+        int idEmployeeApplicant = holidayRequest.getIdEmployeeApplicant();
+        String loginEmployeeApplicant = holidayRequest.getLoginEmployeeApplicant();
+        LocalDate startDateHol = holidayRequest.getStartDateHol();
+        LocalDate endDateHol = holidayRequest.getEndDateHol();
 
-//        int idEmployeeApplicant = Integer.parseInt(request.getParameter("idEmployeeApplicant"));
-//        System.out.println("idEmployeeApplicant " + idEmployeeApplicant);
-//        String loginEmployeeApplicant = request.getParameter("loginEmployeeApplicant");
-//        LocalDate startDateHol = LocalDate.parse(request.getParameter("startDateHol"), dateFormat);
-//        LocalDate endDateHol = LocalDate.parse(request.getParameter("endDateHol"), dateFormat);
-//        String status = request.getParameter("status");
-//        HolidayRequest holidayRequest = new HolidayRequest(id, idEmployeeApplicant, loginEmployeeApplicant, startDateHol, endDateHol, status);
+        HolidayRequest holidayRequestNEW = new HolidayRequest(id, idEmployeeApplicant, loginEmployeeApplicant, startDateHol, endDateHol, status);
 
+        holidayRequestDao.updateHolidayRequestADMIN(holidayRequestNEW);
+        System.out.println(holidayRequestDao.updateHolidayRequestADMIN(holidayRequestNEW) + " 4");
+        System.out.println(holidayRequestNEW + " 4");
 
+        List<HolidayRequest> holidayRequestListB = dbUtilClient.getHolidayRequestsB();
+        request.setAttribute("HolidaysRequestsList", holidayRequestListB);
 
-        holidayRequestDao.updateHolidayRequestADMIN(holidayRequest);
-        System.out.println(holidayRequest + "4");
-
-        List<HolidayRequest> holidayRequestListADMIN = holidayRequestDao.selectAllHolidayRequests();
-        System.out.println(holidayRequestListADMIN + "5");
-        request.setAttribute("HolidaysRequestsList", holidayRequestListADMIN);
         RequestDispatcher dispatcher = request.getRequestDispatcher("holidayRequestsListADMIN.jsp");
         dispatcher.forward(request, response);
-
-        // List again the requests made.
-//        response.sendRedirect("LIST");
 
     }
 
