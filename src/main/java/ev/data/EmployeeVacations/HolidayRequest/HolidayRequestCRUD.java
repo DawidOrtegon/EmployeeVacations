@@ -21,6 +21,7 @@ public class HolidayRequestCRUD implements HolidayRequestDao
     private static final String SELECT_ALL_HOLIDAY_REQUESTS = "SELECT * FROM VacationsDatabaseB.HolidayRequest;";
     private static final String DELETE_HOLIDAY_REQUEST_BY_ID = "DELETE FROM VacationsDatabaseB.HolidayRequest WHERE id = ?;";
     private static final String UPDATE_HOLIDAY_REQUEST = "UPDATE VacationsDatabaseB.HolidayRequest SET idEmployeeApplicant = ?, loginEmployeeApplicant = ?, startDateHol= ?, endDateHol =?, status =? WHERE id = ?;";
+    private static final String UPDATE_HOLIDAY_REQUEST_B = "UPDATE VacationsDatabaseB.HolidayRequest SET startDateHol= ?, endDateHol = ? WHERE id = ?  and status = 'Pending';";
     private static final String UPDATE_HOLIDAY_REQUEST_ADMIN_B = "UPDATE VacationsDatabaseB.HolidayRequest SET VacationsDatabaseB.HolidayRequest.status = ? WHERE id = ? and idEmployeeApplicant = ? and loginEmployeeApplicant = ? and startDateHol= ?  and endDateHol = ?; ";
     private static final String UPDATE_HOLIDAY_REQUEST_ADMIN = "UPDATE VacationsDatabaseB.HolidayRequest SET status =? WHERE id = ?;";
 
@@ -143,6 +144,10 @@ public class HolidayRequestCRUD implements HolidayRequestDao
         return holidayRequestDeleted;
     }
 
+
+
+
+
     @Override
     public boolean updateHolidayRequest(HolidayRequest holidayRequest) throws SQLException
     {
@@ -156,6 +161,23 @@ public class HolidayRequestCRUD implements HolidayRequestDao
             preparedStatement.setDate(4,JDBCUtils.getSQLDate(holidayRequest.getStartDateHol()));
             preparedStatement.setDate(5,JDBCUtils.getSQLDate(holidayRequest.getEndDateHol()));
             preparedStatement.setString(6,holidayRequest.getStatus());
+
+            holidayRequestUpdated = preparedStatement.executeUpdate() > 0;
+        }
+        return holidayRequestUpdated;
+    }
+
+    @Override
+    public boolean updateHolidayRequestB(HolidayRequest holidayRequest) throws SQLException
+    {
+        boolean holidayRequestUpdated;
+        try(Connection connection = JDBCUtils.getConnection())
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_HOLIDAY_REQUEST_B);
+            preparedStatement.setDate(1,JDBCUtils.getSQLDate(holidayRequest.getStartDateHol()));
+            preparedStatement.setDate(2,JDBCUtils.getSQLDate(holidayRequest.getEndDateHol()));
+            preparedStatement.setInt(3,holidayRequest.getId());
+            preparedStatement.execute();
 
             holidayRequestUpdated = preparedStatement.executeUpdate() > 0;
         }
@@ -209,8 +231,6 @@ public class HolidayRequestCRUD implements HolidayRequestDao
                 // Creation of the request to show.
                 holidayRequest = new HolidayRequest(id,idEmployeeApplicant,loginEmployeeApplicant, startDateHol,endDateHol,status);
             }
-
-
 
         }
         catch (SQLException e)

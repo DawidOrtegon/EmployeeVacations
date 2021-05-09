@@ -93,7 +93,7 @@
     <c:forEach var="tmpRequest" items="${HolidaysRequestsList}">
 
     <c:url var="updateLink" value="HolidayRequestController">
-    <c:param name="command" value="UPDATE"></c:param>
+    <c:param name="command" value="LOAD_B"></c:param>
     <c:param name="id" value="${tmpRequest.id}"></c:param>
     </c:url>
 
